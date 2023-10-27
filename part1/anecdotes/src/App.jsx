@@ -6,6 +6,16 @@ const Button = ({ text, onClick }) => {
   )
 }
 
+const MostVotes = ({ anecdote, votes }) => {
+  return (
+    <>
+      <h1>Anecdote with the most votes</h1>
+      {anecdote}<br/>
+      has {votes} votes.
+    </>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -19,6 +29,8 @@ const App = () => {
   ]
 
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
+
+  const [mostVotesIndex, setMostVotesIndex] = useState(0)
    
   const [selected, setSelected] = useState(0)
 
@@ -30,16 +42,19 @@ const App = () => {
     const newVotes = [... votes]
     newVotes[selected] += 1
     setVotes(newVotes)
+    setMostVotesIndex(newVotes.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0))
   }
 
   return (
     <div>
+      <h1>Anecdote of the day!</h1>
       {anecdotes[selected]}<br/>
       has {votes[selected]} votes.
       <div>
         <Button text='Vote' onClick={onVoteClick}/>
         <Button text='Next' onClick={onNextClick}/>
       </div>
+      <MostVotes anecdote={anecdotes[mostVotesIndex]} votes={votes[mostVotesIndex]}/>
     </div>
   )
 }
