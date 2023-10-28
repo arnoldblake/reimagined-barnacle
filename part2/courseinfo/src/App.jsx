@@ -23,11 +23,11 @@ const Part = ({part}) => {
 }
 
 const Total = ({course}) => {
+  let totalExercises = 0
+  course.parts.map((part) => totalExercises += part.exercises)
+
   return (
-    <p>Number of exercises {course.parts[0].exercises + 
-      course.parts[1].exercises + 
-      course.parts[2].exercises}
-    </p>
+    <p>Number of exercises {totalExercises}</p>
   )
 }
 
@@ -36,6 +36,7 @@ const Course = ({course}) => {
     <>
       <Header course={course}/>
       <Content course={course}/>
+      <Total course={course}/>
     </>  
   )
 }
