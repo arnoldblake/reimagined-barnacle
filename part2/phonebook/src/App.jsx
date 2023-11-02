@@ -8,11 +8,15 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
+    
     const newPerson = {
       name: newName,
     }
-
-    setPersons(persons.concat(newPerson))
+    if(persons.filter((person) => person.name === newName).length > 0) {
+      alert(`${newName} already exists`)
+    } else {  
+      setPersons(persons.concat(newPerson))
+    }
     setNewName('')
   }
 
@@ -36,7 +40,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map((person) => <li key={person.id}>{person.name}</li>)}
+        {persons.map((person, i) => <li key={i}>{person.name}</li>)}
       </ul>
     </div>
   )
