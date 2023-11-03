@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import personsService from './services/Persons'
 import DeleteButton from './components/DeleteButton'
+import ErrorMessage from './components/ErrorMessage'
 
 const Filter = ({value, onChange}) => {
   return (
@@ -50,6 +51,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     personsService
@@ -83,6 +85,12 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
         })
     }
+    setErrorMessage(
+      `Person ${newPerson.name} has been added to the phonebook.`
+    )
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
     setNewName('')
     setNewNumber('')
   }
@@ -114,11 +122,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter value={filter} onChange={filterChanged}/>
+      <ErrorMessage message={errorMessage} />
+      <Filter value={filter} onChange={filterChanged} />
       <h3>Add a new</h3>
-      <Form onSubmit={addPerson} newName={newName} newNumber={newNumber} newNameChanged={newNameChanged} newNumberChanged={newNumberChanged}/>
+      <Form onSubmit={addPerson} newName={newName} newNumber={newNumber} newNameChanged={newNameChanged} newNumberChanged={newNumberChanged} />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} onDeleteClicked={onDeleteClicked}/>
+      <Persons personsToShow={personsToShow} onDeleteClicked={onDeleteClicked} />
     </div>
   )
 }
