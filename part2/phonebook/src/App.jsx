@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import personsService from './services/Persons'
+import DeleteButton from './components/DeleteButton'
 
 const Filter = ({value, onChange}) => {
   return (
@@ -31,17 +31,17 @@ const Form = ({onSubmit, newName, newNumber, newNameChanged, newNumberChanged}) 
   )
 }
 
-const Persons = ({personsToShow}) => {
+const Persons = ({personsToShow, onDeleteClicked}) => {
   return (
     <ul>
-      {personsToShow.map((person, i) => <Person key={i} name={person.name} number={person.number}/>)}
+      {personsToShow.map((person) => <Person key={person.id} name={person.name} number={person.number} id={person.id} onDeleteClicked={onDeleteClicked}/>)}
     </ul>
   )
 }
 
-const Person = ({name, number}) => {
+const Person = ({name, number, id, onDeleteClicked}) => {
   return (
-    <li>{name} {number}</li>
+    <li>{name} {number} <DeleteButton onClick={() => onDeleteClicked(name, id)}/></li>
   )
 }
 
@@ -93,6 +93,16 @@ const App = () => {
 
   const personsToShow = filter ? persons.filter((person) => person.name.toLowerCase().includes(filter)) : persons
 
+  const onDeleteClicked = (name, id) => {
+    if (confirm(`Do you wish to delete ${name}?`)) {
+      personsService.deletePerson(id)
+        .then(response => {
+          setPersons(persons.filter(p => p.id != id))
+        })
+    }
+  }
+
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -100,7 +110,7 @@ const App = () => {
       <h3>Add a new</h3>
       <Form onSubmit={addPerson} newName={newName} newNumber={newNumber} newNameChanged={newNameChanged} newNumberChanged={newNumberChanged}/>
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow}/>
+      <Persons personsToShow={personsToShow} onDeleteClicked={onDeleteClicked}/>
     </div>
   )
 }
