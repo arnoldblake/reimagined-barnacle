@@ -51,7 +51,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessageType, setErrorMessageType] = useState('success')
 
   useEffect(() => {
     personsService
@@ -76,6 +77,12 @@ const App = () => {
           .update(person.id, newPerson)
           .then(returnedPerson => {
             setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson ))
+          })
+          .catch(error => {
+            setErrorMessageType('error')
+            setErrorMessage(
+              `${newPerson.name} has already been deleted from the phonebook.`
+            )
           })
       }
     } else {  
@@ -122,7 +129,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <ErrorMessage message={errorMessage} />
+      <ErrorMessage message={errorMessage} errorType={errorMessageType} />
       <Filter value={filter} onChange={filterChanged} />
       <h3>Add a new</h3>
       <Form onSubmit={addPerson} newName={newName} newNumber={newNumber} newNameChanged={newNameChanged} newNumberChanged={newNumberChanged} />
