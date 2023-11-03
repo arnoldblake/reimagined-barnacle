@@ -66,8 +66,16 @@ const App = () => {
       name: newName,
       number: newNumber,
     }
-    if(persons.filter((person) => person.name === newName).length > 0) {
-      alert(`${newName} already exists`)
+    const filterPersons = persons.filter((person) => person.name === newName)
+    const person = filterPersons.length ? filterPersons[0] : null
+    if(person) {
+      if(confirm(`${person.name} already exists, would you like to update the phone number?`)) {
+        personsService
+          .update(person.id, newPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson ))
+          })
+      }
     } else {  
       personsService
         .create(newPerson)
