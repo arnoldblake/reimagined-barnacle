@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import countriesService from './services/countries'
 import Country from './components/country'
 import CountryDetail from './components/countryDetail'
+import ShowDetails from './components/showDetails'
 
 function App() {
   const [countries, setCountries] = useState(null)
@@ -37,7 +38,12 @@ function App() {
               ? <div>Too many countries to display</div>
               : countriesToShow.length === 1
                 ? <CountryDetail c={countriesToShow[0]}/>
-                : countriesToShow.map((c) => <Country key={c.ccn3} c={c} />)
+                : countriesToShow.map((c) => (
+                    <div>
+                      <Country key={c.ccn3} c={c} />
+                      <ShowDetails country={c}/>
+                    </div>
+                  ))
           }
       </div>
     </>

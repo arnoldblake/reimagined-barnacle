@@ -1,6 +1,10 @@
+import ShowDetails from "./showDetails"
+
 const Country = ({c}) => {
     return (
-        <div>{c.name.common}</div>
+        <>
+            {c.name.common}
+        </>
     )
 }
 
