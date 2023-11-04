@@ -1,3 +1,5 @@
+import ShowWeather from "./showWeather"
+
 const CountryDetail = ({c}) => {
     return (
         <div>
@@ -13,6 +15,7 @@ const CountryDetail = ({c}) => {
             </div>
             <h3>Flag</h3>
             <div className='flag'>{c.flag}</div>
+            <ShowWeather country={c}/>
         </div>
     )
 }
