@@ -88,16 +88,14 @@ const App = () => {
         .create(newPerson)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setErrorMessageType('success')
+          setErrorMessage(`Person ${newPerson.name} has been added to the phonebook.`)
         })
         .catch(error => {
           setErrorMessageType('error')        
           setErrorMessage(error.response.data.error)
         })
     }
-    setErrorMessageType('success')
-    setErrorMessage(
-      `Person ${newPerson.name} has been added to the phonebook.`
-    )
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
