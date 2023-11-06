@@ -71,7 +71,7 @@ const App = () => {
     }
     const filterPersons = persons.filter((person) => person.name === newName)
     const person = filterPersons.length ? filterPersons[0] : null
-    if(person) {
+    if (person) {
       if(confirm(`${person.name} already exists, would you like to update the phone number?`)) {
         personsService
           .update(person.id, newPerson)
@@ -79,10 +79,8 @@ const App = () => {
             setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson ))
           })
           .catch(error => {
-            setErrorMessageType('error')
-            setErrorMessage(
-              `${newPerson.name} has already been deleted from the phonebook.`
-            )
+            setErrorMessageType('error')        
+            setErrorMessage(error.response.data.error)
           })
       }
     } else {  
@@ -91,7 +89,12 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
         })
+        .catch(error => {
+          setErrorMessageType('error')        
+          setErrorMessage(error.response.data.error)
+        })
     }
+    setErrorMessageType('success')
     setErrorMessage(
       `Person ${newPerson.name} has been added to the phonebook.`
     )
