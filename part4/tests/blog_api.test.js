@@ -37,6 +37,26 @@ test('verify that the unique id property of the blog posts is named id', async (
   expect(ids).toHaveLength(helper.initialBlogs.length)
 })
 
+test('a valid note can be added', async () => {
+  const newBlog = {
+    title: 'A whole new world',
+    author: 'Lorcana',
+    url: 'https://lorcana.com/',
+    likes: 42
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+  const titles = blogsAtEnd.map(b => b.title)
+  expect(titles).toContain('A whole new world')
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
