@@ -14,18 +14,18 @@ const url = 'mongodb://'+config.DB_HOST+':'+config.DB_PORT+'/'+config.DB_NAME+'?
 logger.info('connecting to', url)
 
 mongoose.connect(url, {
-    auth: {
-        username: config.DB_USERNAME,
-        password: config.DB_PASSWORD
-    },
-    retryWrites: false
+  auth: {
+    username: config.DB_USERNAME,
+    password: config.DB_PASSWORD
+  },
+  retryWrites: false
 })
-    .then(() => {
-        logger.info('connected to MongoDB')
-    })
-    .catch((error) => {
-        logger.info('error connecting to MongoDB:', error.message)
-    })
+  .then(() => {
+    logger.info('connected to MongoDB')
+  })
+  .catch((error) => {
+    logger.info('error connecting to MongoDB:', error.message)
+  })
 
 app.use(cors())
 app.use(express.json())
