@@ -11,7 +11,14 @@ describe('test that blogs', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
 
-    const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
+    const response = await api
+      .get('/api/users')
+      .expect(200)
+
+    const blogObjects = helper.initialBlogs.map(blog => {
+      blog.user = response.body[0].id
+      return new Blog(blog)
+    })
     const promiseArray = blogObjects.map(blog => blog.save())
     await Promise.all(promiseArray)
   })
@@ -166,8 +173,21 @@ describe('deletion of a blog', () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
+    const user = {
+      'username': 'root',
+      'password': 'sekret'
+    }
+
+    const loginResponse = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+
+    expect(loginResponse.body.token).toBeDefined()
+
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
+      .set({ Authorization: `Bearer ${loginResponse.body.token}` })
       .expect(204)
   })
 })
