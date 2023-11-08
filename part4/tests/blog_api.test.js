@@ -72,7 +72,7 @@ describe('test that blogs', () => {
     expect(titles).toContain('A whole new world')
   })
 
-  test('if a  is missing likes property it will default to 0', async () => {
+  test('is missing a likes property it will default to 0', async () => {
 
     const newBlog = {
       title: 'Be Prepared',
@@ -105,14 +105,6 @@ describe('test that blogs', () => {
 })
 
 describe('creation of a blog without a', () => {
-  beforeEach(async () => {
-    await Blog.deleteMany({})
-
-    const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
-    const promiseArray = blogObjects.map(blog => blog.save())
-    await Promise.all(promiseArray)
-  })
-
   test('title is not added', async () => {
     const newBlog = {
       author: 'No Title',
@@ -169,13 +161,6 @@ describe('creation of a blog without a', () => {
 })
 
 describe('deletion of a blog', () => {
-  beforeEach(async () => {
-    await Blog.deleteMany({})
-
-    const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
-    const promiseArray = blogObjects.map(blog => blog.save())
-    await Promise.all(promiseArray)
-  })
 
   test('succeeds with status code 204 if id is valid', async () => {
     const blogsAtStart = await helper.blogsInDb()
@@ -188,14 +173,6 @@ describe('deletion of a blog', () => {
 })
 
 describe('update a blog', () => {
-
-  beforeEach(async () => {
-    await Blog.deleteMany({})
-
-    const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
-    const promiseArray = blogObjects.map(blog => blog.save())
-    await Promise.all(promiseArray)
-  })
   test('succeeds with 200', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blog = blogsAtStart[0]

@@ -3,17 +3,18 @@ GET http://localhost:3001/api/blogs
 ###
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImlkIjoiNjU0YmNjMmU4MzdjYjYwN2E4MmVmNzBhIiwiaWF0IjoxNjk5NDY3MDE5LCJleHAiOjE2OTk0NzA2MTl9.lfuAP3NG2n93qmBq5uDsaYjTS51RTCTK0ESbJ_PEqts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1NGJkNmNhYTI4MWU4NTY3OGRlNjlhMyIsImlhdCI6MTY5OTQ2OTYzMCwiZXhwIjoxNjk5NDczMjMwfQ.U-SdXyO3CLpaglFj4AQkoovb2VBYdy20_Un1PMNTAQY
 
 {
-  "title": "Hi",
+  "title": "Delete Me",
   "author": "Joe",
   "url": "http://something.com",
   "likes": 10
 }
 
 ###
-DELETE http://localhost:3001/api/blogs/654af74813524cfe85adcc03
+DELETE http://localhost:3001/api/blogs/654bdc738ccb8d9b5d2d7191
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImlkIjoiNjU0YmRjODE4Y2NiOGQ5YjVkMmQ3MTk0IiwiaWF0IjoxNjk5NDcwNDg0LCJleHAiOjE2OTk0NzQwODR9.mRseIiLdNAxliqWPY0wZobsQd24XKSDfbtzBmxf9n8w
 
 ###
 PUT http://localhost:3001/api/blogs/654af9698a3c612dbcb31b72
