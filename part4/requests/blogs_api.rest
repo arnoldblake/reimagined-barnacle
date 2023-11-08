@@ -3,14 +3,13 @@ GET http://localhost:3001/api/blogs
 ###
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImlkIjoiNjU0YmI2MzE5NjY4ZTE4MjBmMTU2NTU5IiwiaWF0IjoxNjk5NDYxMzIzfQ.Yx2OEoT-Jg27P98nBvXQcMKTxx1IWkpAWmIkBMMlZtE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImlkIjoiNjU0YmNjMmU4MzdjYjYwN2E4MmVmNzBhIiwiaWF0IjoxNjk5NDY2Mjk0LCJleHAiOjE2OTk0Njk4OTR9.xx0E9zNtouNnp-d2bwLWOPh_jYjBVMx1GZTc0j5Od68
 
 {
   "title": "Hi",
   "author": "Joe",
   "url": "http://something.com",
-  "likes": 10,
-  "userId": "654bb201ea3a002a19cc6812"
+  "likes": 10
 }
 
 ###
