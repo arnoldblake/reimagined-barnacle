@@ -57,6 +57,40 @@ test('a valid note can be added', async () => {
   expect(titles).toContain('A whole new world')
 })
 
+test('if a note is missing likes property it will default to 0', async () => {
+
+  const newBlog = {
+    title: 'Be Prepared',
+    author: 'Lorcana Chapter 1',
+    url: 'https://lorcana1.com/'
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  expect(response.body.likes).toBeDefined()
+
+})
+
+test('a blog without title is not added', async () => {
+  const newBlog = {
+    author: 'No Title',
+    url: 'https://notitle.com/',
+    likes: 5
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+})
+
+//test('a blog without url is not added')
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
