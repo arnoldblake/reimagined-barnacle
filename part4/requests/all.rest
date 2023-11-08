@@ -13,3 +13,14 @@ content-type: application/json
 
 ###
 DELETE http://localhost:3001/api/blogs/654af74813524cfe85adcc03
+
+###
+PUT http://localhost:3001/api/blogs/654af9698a3c612dbcb31b72
+content-type: application/json
+
+{
+    "title": "asdf",
+    "author": "asdf",
+    "url": "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    "likes": 9000
+}

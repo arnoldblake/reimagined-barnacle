@@ -106,13 +106,29 @@ describe('creation of a blog without a', () => {
 })
 
 describe('deletion of a blog', () => {
-  test('succeds with status code 204 if id is valid', async () => {
+  test('succeeds with status code 204 if id is valid', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204)
+  })
+})
+
+describe('update a blog', () => {
+  test('succeeds with 200', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blog = blogsAtStart[0]
+
+    blog.likes = 99999
+    console.log()
+    const result = await api
+      .put(`/api/blogs/${blog.id}`)
+      .send(blog)
+      .expect(200)
+
+    expect(result.body.likes).toEqual(99999)
   })
 })
 
