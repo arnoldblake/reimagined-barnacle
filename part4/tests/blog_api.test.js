@@ -89,7 +89,19 @@ test('a blog without title is not added', async () => {
 
 })
 
-//test('a blog without url is not added')
+test('a blog without url is not added', async () => {
+  const newBlog = {
+    title: 'No Url',
+    author: 'No Url',
+    likes: 5
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+})
 
 afterAll(async () => {
   await mongoose.connection.close()

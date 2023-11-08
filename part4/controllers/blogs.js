@@ -11,9 +11,12 @@ personsRouter.post('/', async (request, response) => {
   const body = request.body
   body.likes = body.likes ? body.likes : 0
 
-  if (!body.title) response.status(400).end()
-
-  const blog = new Blog(body)
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes || 0
+  })
 
   var savedBlog = await blog.save()
   response.status(201).json(savedBlog)
