@@ -75,32 +75,45 @@ test('if a note is missing likes property it will default to 0', async () => {
 
 })
 
-test('a blog without title is not added', async () => {
-  const newBlog = {
-    author: 'No Title',
-    url: 'https://notitle.com/',
-    likes: 5
-  }
+describe('creation of a blog without a', () => {
+  test('title is not added', async () => {
+    const newBlog = {
+      author: 'No Title',
+      url: 'https://notitle.com/',
+      likes: 5
+    }
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400)
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
 
+  })
+
+  test('url is not added', async () => {
+    const newBlog = {
+      title: 'No Url',
+      author: 'No Url',
+      likes: 5
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+  })
 })
 
-test('a blog without url is not added', async () => {
-  const newBlog = {
-    title: 'No Url',
-    author: 'No Url',
-    likes: 5
-  }
+describe('deletion of a blog', () => {
+  test('succeds with status code 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400)
-
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+  })
 })
 
 afterAll(async () => {
