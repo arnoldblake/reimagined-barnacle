@@ -7,75 +7,85 @@ const api = supertest(app)
 
 const Blog = require('../models/blog')
 
-beforeEach(async () => {
-  await Blog.deleteMany({})
+describe('test that', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
 
-  const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
-  const promiseArray = blogObjects.map(blog => blog.save())
-  await Promise.all(promiseArray)
-})
-
-test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
-
-test('all notes are returned', async () => {
-  const response = await api.get('/api/blogs')
-  expect(response.body).toHaveLength(helper.initialBlogs.length)
-})
-
-test('verify that the unique id property of the blog posts is named id', async () => {
-  const response = await api.get('/api/blogs')
-
-  const ids = response.body.map(blog => {
-    expect(blog.id).toBeDefined()
-    return blog.id
+    const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
+    const promiseArray = blogObjects.map(blog => blog.save())
+    await Promise.all(promiseArray)
   })
-  expect(ids).toHaveLength(helper.initialBlogs.length)
-})
 
-test('a valid note can be added', async () => {
-  const newBlog = {
-    title: 'A whole new world',
-    author: 'Lorcana',
-    url: 'https://lorcana.com/',
-    likes: 42
-  }
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+  test('blogs are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  })
 
-  const blogsAtEnd = await helper.blogsInDb()
-  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+  test('all notes are returned', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
+  })
 
-  const titles = blogsAtEnd.map(b => b.title)
-  expect(titles).toContain('A whole new world')
-})
+  test('verify that the unique id property of the blog posts is named id', async () => {
+    const response = await api.get('/api/blogs')
 
-test('if a note is missing likes property it will default to 0', async () => {
+    const ids = response.body.map(blog => {
+      expect(blog.id).toBeDefined()
+      return blog.id
+    })
+    expect(ids).toHaveLength(helper.initialBlogs.length)
+  })
 
-  const newBlog = {
-    title: 'Be Prepared',
-    author: 'Lorcana Chapter 1',
-    url: 'https://lorcana1.com/'
-  }
+  test('a valid note can be added', async () => {
+    const newBlog = {
+      title: 'A whole new world',
+      author: 'Lorcana',
+      url: 'https://lorcana.com/',
+      likes: 42
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
-  const response = await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
-  expect(response.body.likes).toBeDefined()
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).toContain('A whole new world')
+  })
 
+  test('if a note is missing likes property it will default to 0', async () => {
+
+    const newBlog = {
+      title: 'Be Prepared',
+      author: 'Lorcana Chapter 1',
+      url: 'https://lorcana1.com/'
+    }
+
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    expect(response.body.likes).toBeDefined()
+
+  })
 })
 
 describe('creation of a blog without a', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+
+    const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
+    const promiseArray = blogObjects.map(blog => blog.save())
+    await Promise.all(promiseArray)
+  })
+
   test('title is not added', async () => {
     const newBlog = {
       author: 'No Title',
@@ -106,6 +116,14 @@ describe('creation of a blog without a', () => {
 })
 
 describe('deletion of a blog', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+
+    const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
+    const promiseArray = blogObjects.map(blog => blog.save())
+    await Promise.all(promiseArray)
+  })
+
   test('succeeds with status code 204 if id is valid', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
@@ -117,6 +135,14 @@ describe('deletion of a blog', () => {
 })
 
 describe('update a blog', () => {
+
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+
+    const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
+    const promiseArray = blogObjects.map(blog => blog.save())
+    await Promise.all(promiseArray)
+  })
   test('succeeds with 200', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blog = blogsAtStart[0]
