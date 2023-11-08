@@ -7,7 +7,7 @@ const api = supertest(app)
 
 const Blog = require('../models/blog')
 
-describe('test that', () => {
+describe('test that blogs', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
 
@@ -16,14 +16,14 @@ describe('test that', () => {
     await Promise.all(promiseArray)
   })
 
-  test('blogs are returned as json', async () => {
+  test('are returned as json', async () => {
     await api
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/)
   })
 
-  test('all notes are returned', async () => {
+  test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
@@ -38,16 +38,30 @@ describe('test that', () => {
     expect(ids).toHaveLength(helper.initialBlogs.length)
   })
 
-  test('a valid note can be added', async () => {
+  test('a valid blog can be added', async () => {
     const newBlog = {
       title: 'A whole new world',
       author: 'Lorcana',
       url: 'https://lorcana.com/',
       likes: 42
     }
+
+    const user = {
+      'username': 'root',
+      'password': 'sekret'
+    }
+
+    const loginResponse = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+
+    expect(loginResponse.body.token).toBeDefined()
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set({ Authorization: `Bearer ${loginResponse.body.token}` })
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
@@ -58,7 +72,7 @@ describe('test that', () => {
     expect(titles).toContain('A whole new world')
   })
 
-  test('if a note is missing likes property it will default to 0', async () => {
+  test('if a  is missing likes property it will default to 0', async () => {
 
     const newBlog = {
       title: 'Be Prepared',
@@ -66,9 +80,22 @@ describe('test that', () => {
       url: 'https://lorcana1.com/'
     }
 
+    const user = {
+      'username': 'root',
+      'password': 'sekret'
+    }
+
+    const loginResponse = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+
+    expect(loginResponse.body.token).toBeDefined()
+
     const response = await api
       .post('/api/blogs')
       .send(newBlog)
+      .set({ Authorization: `Bearer ${loginResponse.body.token}` })
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
@@ -93,9 +120,22 @@ describe('creation of a blog without a', () => {
       likes: 5
     }
 
+    const user = {
+      'username': 'root',
+      'password': 'sekret'
+    }
+
+    const loginResponse = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+
+    expect(loginResponse.body.token).toBeDefined()
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set({ Authorization: `Bearer ${loginResponse.body.token}` })
       .expect(400)
 
   })
@@ -107,9 +147,22 @@ describe('creation of a blog without a', () => {
       likes: 5
     }
 
+    const user = {
+      'username': 'root',
+      'password': 'sekret'
+    }
+
+    const loginResponse = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+
+    expect(loginResponse.body.token).toBeDefined()
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set({ Authorization: `Bearer ${loginResponse.body.token}` })
       .expect(400)
 
   })
