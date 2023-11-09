@@ -60,7 +60,7 @@ const App = () => {
     const allBlogs = await blogService.getAll()
     setBlogs(allBlogs)
 
-    setMessage(`A new blog: ${title} by ${author} was created`)
+    setMessage(`A new blog: ${newObject.title} by ${newObject.author} was created`)
     setClassName('success')
 
     blogs.sort((a,b) => {
@@ -95,10 +95,15 @@ const App = () => {
     setBlogs(blogs.map(b => b.id !== updatedBlog ? b : updatedBlog))
   }
 
+  const handleDelete = async (newObject) => {
+    await blogService.deleteBlog(newObject)
+    setBlogs(blogs.filter(b => b.id != newObject.id))
+  }
+
   const showBlogs = () => {
     blogs.sort((a,b) => a.likes > b.likes ? false : true )
     return (blogs.map(blog =>
-      <Blog key={blog.id} blog={blog}>
+      <Blog key={blog.id} blog={blog} handleDelete={handleDelete}>
         <LikeButton handleLike={handleLike} blog={blog}/>
       </Blog>
     ))
