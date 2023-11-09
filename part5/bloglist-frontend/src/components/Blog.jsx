@@ -1,6 +1,6 @@
 import Togglable from "./togglable"
 
-const Blog = ({ blog }) => {
+const Blog = (props) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -10,11 +10,11 @@ const Blog = ({ blog }) => {
   }
   return (
     <div style={blogStyle}>
-      {blog.title} {blog.author}
+      Title: {props.blog.title} Author: {props.blog.author}
       <Togglable buttonLabel='View' alternateButtonLabel='Hide'>
-        <p>{blog.url}</p>
-        <p>{blog.likes}</p>
-        <p>{blog.user.name}</p>
+        <p>URL: {props.blog.url}</p>
+        <p>Likes: {props.blog.likes} {props.children}</p>
+        <p>User: {props.blog.user.name}</p>
       </Togglable>
     </div>  
   )

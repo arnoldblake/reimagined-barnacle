@@ -4,6 +4,7 @@ import Notification from './components/notification'
 import LoginForm from './components/loginForm'
 import BlogForm from './components/blogForm'
 import Togglable from './components/togglable'
+import LikeButton from './components/likeButton'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -19,7 +20,7 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [blogs])
+  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -56,7 +57,8 @@ const App = () => {
   const handleBlog = async (newObject) => {
     blogFormRef.current.toggleVisibility()
     const newBlog = await blogService.createBlog(newObject)
-    setBlogs(blogs.concat(newBlog))
+    const allBlogs = await blogService.getAll()
+    setBlogs(allBlogs)
 
     setMessage(`A new blog: ${title} by ${author} was created`)
     setClassName('success')
@@ -84,6 +86,10 @@ const App = () => {
     )
   }
 
+  const handleLike = async (newObject) => {
+    const updatedBlog = await blogService.updateBlog(newObject)
+  }
+
   return (
     <div>
       {user && <div>
@@ -95,7 +101,9 @@ const App = () => {
       <Notification message={message} className={className} />
       {user === null ? loginForm() : blogForm()}
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog}>
+          <LikeButton handleLike={handleLike} blog={blog}/>
+        </Blog>
       )}
     </div>
   )
