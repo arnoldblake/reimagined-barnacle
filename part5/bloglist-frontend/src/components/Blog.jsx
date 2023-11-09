@@ -14,6 +14,7 @@ const Blog = ({ blog }) => {
       <Togglable buttonLabel='View' alternateButtonLabel='Hide'>
         <p>{blog.url}</p>
         <p>{blog.likes}</p>
+        <p>{blog.user.name}</p>
       </Togglable>
     </div>  
   )
