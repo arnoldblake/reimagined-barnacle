@@ -17,9 +17,9 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    blogService.getAll().then(blogs => {
+      setBlogs(blogs)
+  })  
   }, [])
 
   useEffect(() => {
@@ -63,6 +63,10 @@ const App = () => {
     setMessage(`A new blog: ${title} by ${author} was created`)
     setClassName('success')
 
+    blogs.sort((a,b) => {
+      a.likes > b.likes ? false : true
+    })
+
     setTimeout(() => {
       setMessage(null)
     }, 5000)
@@ -91,6 +95,15 @@ const App = () => {
     setBlogs(blogs.map(b => b.id !== updatedBlog ? b : updatedBlog))
   }
 
+  const showBlogs = () => {
+    blogs.sort((a,b) => a.likes > b.likes ? false : true )
+    return (blogs.map(blog =>
+      <Blog key={blog.id} blog={blog}>
+        <LikeButton handleLike={handleLike} blog={blog}/>
+      </Blog>
+    ))
+  }
+
   return (
     <div>
       {user && <div>
@@ -101,11 +114,7 @@ const App = () => {
       <h2>Blogs</h2>
       <Notification message={message} className={className} />
       {user === null ? loginForm() : blogForm()}
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog}>
-          <LikeButton handleLike={handleLike} blog={blog}/>
-        </Blog>
-      )}
+      {showBlogs()}
     </div>
   )
 }
