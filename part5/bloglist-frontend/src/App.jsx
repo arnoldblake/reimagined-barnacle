@@ -88,6 +88,7 @@ const App = () => {
 
   const handleLike = async (newObject) => {
     const updatedBlog = await blogService.updateBlog(newObject)
+    setBlogs(blogs.map(b => b.id !== updatedBlog ? b : updatedBlog))
   }
 
   return (
