@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [message, setMessage] = useState(null)
+  const [className, setClassName] = useState('success')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [title, setTitle] = useState('')
@@ -38,7 +41,12 @@ const App = () => {
       setPassword('')
 
     } catch (exception) {
-      console.log(exception)
+      setMessage(`Invalid login`)
+      setClassName('error')
+
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
@@ -69,6 +77,13 @@ const App = () => {
     setTitle('')
     setUrl('')
     setBlogs(blogs.concat(newBlog))
+
+    setMessage(`A new blog: ${title} by ${author} was created`)
+    setClassName('success')
+
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
   }
 
   const blogForm = () => (
@@ -100,6 +115,7 @@ const App = () => {
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
+      <Notification message={message} className={className} />
     </div>
   )
 }
