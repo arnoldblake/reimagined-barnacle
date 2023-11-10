@@ -21,7 +21,7 @@ const BlogForm = ({
       <form onSubmit={addBlog}>
         <div><label>title <input type="text" value={title} name="Title" onChange={event => setTitle(event.target.value)}/></label></div>
         <div><label>author <input type="text" value={author} name="Author" onChange={event => setAuthor(event.target.value)}/></label></div>
-        <div>url <input type="url" value={url} name="URL" onChange={event => setUrl(event.target.value)}/></div>
+        <div><label>url <input type="url" value={url} name="URL" onChange={event => setUrl(event.target.value)}/></label></div>
         <button type="submit">Create</button>
       </form>
     </div>

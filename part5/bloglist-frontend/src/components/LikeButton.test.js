@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import LikeButton from './likeButton'
 
-test('like button calls handleLike when clicked', () => {
+test('like button calls handleLike when clicked', async () => {
   const blog = {
     title: 'Hello World',
     author: 'Paul McA',
@@ -20,10 +20,10 @@ test('like button calls handleLike when clicked', () => {
 
   render(<LikeButton blog={blog} handleLike={handleLike} />)
   const likeButton = screen.getByText('Like')
-  screen.debug(likeButton)
-  user.click(likeButton)
+  await user.click(likeButton)
+  await user.click(likeButton)
 
-  expect(handleLike.mock.calls).toHaveLength(1)
+  expect(handleLike.mock.calls).toHaveLength(2)
 
 })
 
