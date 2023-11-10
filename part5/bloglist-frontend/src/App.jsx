@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs => {
       setBlogs(blogs)
-  })  
+    })
   }, [])
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const App = () => {
       setUser(user)
 
     } catch (exception) {
-      setMessage(`Invalid login`)
+      setMessage('Invalid login')
       setClassName('error')
 
       setTimeout(() => {
@@ -85,7 +85,7 @@ const App = () => {
   const loginForm = () => {
     return (
       <Togglable buttonLabel='Login' alternateButtonLabel='Cancel'>
-          <LoginForm handleLogin={handleLogin}/>
+        <LoginForm handleLogin={handleLogin}/>
       </Togglable>
     )
   }
@@ -97,7 +97,7 @@ const App = () => {
 
   const handleDelete = async (newObject) => {
     await blogService.deleteBlog(newObject)
-    setBlogs(blogs.filter(b => b.id != newObject.id))
+    setBlogs(blogs.filter(b => b.id !== newObject.id))
   }
 
   const showBlogs = () => {
@@ -115,7 +115,7 @@ const App = () => {
         <p>
           {user.name} logged in {user !== null && logoutButton() }
         </p>
-        </div>}
+      </div>}
       <h2>Blogs</h2>
       <Notification message={message} className={className} />
       {user === null ? loginForm() : blogForm()}

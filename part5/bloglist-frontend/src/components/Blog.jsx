@@ -1,5 +1,5 @@
-import Togglable from "./togglable"
-import DeleteButton from "./deleteButton"
+import Togglable from 's./togglable'
+import DeleteButton from './deleteButton'
 
 const Blog = (props) => {
   const blogStyle = {
@@ -18,7 +18,7 @@ const Blog = (props) => {
         <p>User: {props.blog.user.name}</p>
         <DeleteButton handleDelete={props.handleDelete} blog={props.blog}/>
       </Togglable>
-    </div>  
+    </div>
   )
 }
 
