@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import Blog from './Blog'
+import Blog from './blog'
 
 test('renders content', () => {
   const blog = {

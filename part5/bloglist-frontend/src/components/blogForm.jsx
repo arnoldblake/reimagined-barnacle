@@ -20,7 +20,7 @@ const BlogForm = ({
       <h2>Create a new blog</h2>
       <form onSubmit={addBlog}>
         <div><label>title <input type="text" value={title} name="Title" onChange={event => setTitle(event.target.value)}/></label></div>
-        <div>author <input type="text" value={author} name="Author" onChange={event => setAuthor(event.target.value)}/></div>
+        <div><label>author <input type="text" value={author} name="Author" onChange={event => setAuthor(event.target.value)}/></label></div>
         <div>url <input type="url" value={url} name="URL" onChange={event => setUrl(event.target.value)}/></div>
         <button type="submit">Create</button>
       </form>

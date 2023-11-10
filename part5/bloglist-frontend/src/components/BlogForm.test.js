@@ -10,10 +10,12 @@ test('<NoteForm /> updates parent state and calls onSubmit', async () => {
 
   render(<BlogForm createBlog={createBlog}/>)
 
-  const input = screen.getByRole('textbox', { name: 'title' })
+  const titleInput = screen.getByRole('textbox', { name: 'title' })
+  const authorInput = screen.getByRole('textbox', { name: 'author' })
   const sendButton = screen.getByText('Create')
 
-  await user.type(input, 'testing a form...')
+  await user.type(titleInput, 'testing a form...')
+  await user.type(authorInput, 'this is a test')
   await user.click(sendButton)
 
   expect(createBlog.mock.calls).toHaveLength(1)
