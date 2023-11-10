@@ -1,4 +1,4 @@
-import Togglable from 's./togglable'
+import Togglable from './togglable'
 import DeleteButton from './deleteButton'
 
 const Blog = (props) => {
@@ -10,7 +10,7 @@ const Blog = (props) => {
     marginBottom: 5
   }
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       Title: {props.blog.title} Author: {props.blog.author}
       <Togglable buttonLabel='View' alternateButtonLabel='Hide'>
         <p>URL: {props.blog.url}</p>
