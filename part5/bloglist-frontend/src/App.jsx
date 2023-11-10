@@ -100,10 +100,10 @@ const App = () => {
     setBlogs(blogs.filter(b => b.id !== newObject.id))
   }
 
-  const showBlogs = () => {
+  const showBlogs = (user) => {
     blogs.sort((a,b) => a.likes > b.likes ? false : true )
     return (blogs.map(blog =>
-      <Blog key={blog.id} blog={blog} handleDelete={handleDelete}>
+      <Blog key={blog.id} blog={blog} user={user} handleDelete={handleDelete}>
         <LikeButton handleLike={handleLike} blog={blog}/>
       </Blog>
     ))
@@ -119,7 +119,7 @@ const App = () => {
       <h2>Blogs</h2>
       <Notification message={message} className={className} />
       {user === null ? loginForm() : blogForm()}
-      {showBlogs()}
+      {showBlogs(user)}
     </div>
   )
 }

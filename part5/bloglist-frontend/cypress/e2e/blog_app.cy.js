@@ -6,7 +6,14 @@ describe('Blog app', () => {
       username: 'root',
       password: 'sekret'
     }
+
+    const second_user = {
+      name: 'slacker',
+      username: 'slacker',
+      password: 'password',
+    }
     cy.request('POST', `${Cypress.env('BACKEND')}/users`, user)
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, second_user)
     cy.visit('')
   })
 
@@ -64,9 +71,34 @@ describe('Blog app', () => {
       })
 
       it('the view button can be clicked', () => {
-        cy.get('#Cypress').click()
+        cy.get('#view-Cypress').click()
         cy.contains('http://youwin123.com')
       })
+
+      it('the delete button is visible', () => {
+        cy.get('.blog').contains('View').click()
+        cy.get('.blog').should('contain', 'Delete')
+      })
+
+      it('the delete button can be clicked and confirmed if I created the blog', () => {
+        cy.get('.blog').contains('View').click()
+        cy.get('.blog').contains('Delete').click()
+        cy.on('window:confirm', () => true)
+        cy.should('not.contain', 'Cypress')
+      })
+    })
+  })
+
+  describe('when logged in as another user', () => {
+    beforeEach(() => {
+      cy.login({ username: 'root', password: 'sekret' })
+      cy.createBlog({ title: 'Cypress', author: 'E2E testing', url: 'http://youwin123.com' })
+      cy.login({ username: 'slacker', password: 'password' })
+    })
+
+    it('the delete button is not visible if I did not create the blog', () => {
+      cy.get('.blog').contains('View').click()
+      cy.get('.blog').should('not.contain', 'Delete')
     })
   })
 })
