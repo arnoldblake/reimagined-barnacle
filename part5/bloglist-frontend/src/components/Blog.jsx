@@ -11,7 +11,6 @@ const Blog = ({ children, user, handleDelete, blog }) => {
   }
 
   const showDeleteButton = (user) => {
-    console.log(user, blog)
     if ((user && user.username) === blog.user.username) return (<DeleteButton handleDelete={handleDelete} blog={blog}/>)
   }
 

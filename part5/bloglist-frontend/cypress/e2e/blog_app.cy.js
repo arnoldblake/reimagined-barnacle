@@ -86,6 +86,23 @@ describe('Blog app', () => {
         cy.on('window:confirm', () => true)
         cy.should('not.contain', 'Cypress')
       })
+
+      describe('and another note exists', () => {
+        beforeEach(() => {
+          cy.createBlog({ title: 'Testing is fun', author: 'A bored developer', url: 'http://soccer.com', likes: 2 })
+        })
+
+        it.only('blogs are ordered by likes', () => {
+          cy.get('.blog').eq(0).contains('Testing is fun')
+          cy.get('.blog').eq(1).contains('View').click()
+          cy.get('button').then((buttons) => {
+            cy.wrap(buttons[9]).contains('Like').click()
+            cy.wrap(buttons[9]).contains('Like').click()
+            cy.wrap(buttons[9]).contains('Like').click()
+          })
+          cy.get('.blog').eq(0).contains('Cypress')
+        })
+      })
     })
   })
 
