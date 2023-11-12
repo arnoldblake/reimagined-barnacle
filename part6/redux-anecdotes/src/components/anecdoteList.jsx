@@ -1,8 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { voteById, orderByVotes } from '../reducers/anecdoteReducer'
+import { voteById } from '../reducers/anecdoteReducer'
 
 const AnecdoteList = () => {
   const anecdotes = useSelector(({ anecdotes, filter }) => {
+    anecdotes.sort((a, b) => b.votes - a.votes)
     if (filter === 'ALL') {
       return anecdotes
     }
@@ -20,26 +21,18 @@ const AnecdoteList = () => {
     dispatch(voteById(id))
   }
 
-  const displayAnecdotes = (anecdotes) => {
-    dispatch(orderByVotes(anecdotes))
-    return (anecdotes.map(anecdote => 
-      <div key={anecdote.id}>
-      <div>
-        {anecdote.content}
-      </div>
-      <div>
-        has {anecdote.votes}
-        <button onClick={() => vote(anecdote.id)}>vote</button>
-      </div>
-    </div>
-    ))
-  }
-
   return (
-    <>
-      {displayAnecdotes(anecdotes)}
-    </>
-  )
+    anecdotes.map(anecdote => 
+      <div key={anecdote.id}>
+        <div>
+          {anecdote.content}
+        </div>
+        <div>
+          has {anecdote.votes}
+          <button onClick={() => vote(anecdote.id)}>vote</button>
+        </div>
+      </div>
+  ))
 }
 
 export default AnecdoteList
