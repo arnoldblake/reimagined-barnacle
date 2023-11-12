@@ -37,9 +37,21 @@ const reducer = (state = initialState, action) => {
       return state.concat(asObject(action.payload))
     }
 
+    case 'RESET': {
+      return action.payload
+    }
+
     default:
       return state
   }
+}
+
+export const orderByVotes = (anecdotes) => {
+  anecdotes.sort((a,b) => a.votes > b.votes ? false : true)
+  return ({
+    type: 'ORDERBYID',
+    payload: anecdotes
+  })
 }
 
 export const voteById = (id) => {
