@@ -1,13 +1,23 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createAnecdote } from "../../requests"
+import { useContext } from "react"
+import MessageContext from "../messageContext"
 
-const AnecdoteForm = () => {
+const AnecdoteForm = ({ type }) => {
+  const [message, dispatch] = useContext(MessageContext)
+
   const queryClient = useQueryClient()
 
   const newAnecdoteMutation = useMutation({ 
     mutationFn: createAnecdote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
+    },
+    onError: () => {
+      dispatch({
+        payload: 'Failed POST request',
+        type: 'ERROR'
+      })
     }
   })
 
@@ -16,6 +26,10 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     newAnecdoteMutation.mutate({ content })
+    dispatch({
+      payload: content,
+      type: type
+    })
     console.log('new anecdote')
 }
 
