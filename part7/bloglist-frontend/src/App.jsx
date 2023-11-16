@@ -91,16 +91,6 @@ const App = () => {
     )
   }
 
-  const handleLike = async (newObject) => {
-    const updatedBlog = await blogService.updateBlog(newObject)
-    //setBlogs(blogs.map((b) => (b.id !== updatedBlog ? b : updatedBlog)))
-  }
-
-  const handleDelete = async (newObject) => {
-    await blogService.deleteBlog(newObject)
-    //setBlogs(blogs.filter((b) => b.id !== newObject.id))
-  }
-
   return (
     <div>
       {user && (
@@ -113,11 +103,7 @@ const App = () => {
       <h2>Blogs</h2>
       <Notification />
       {user === null ? loginForm() : blogForm()}
-      <BlogList
-        user={user}
-        handleDelete={handleDelete}
-        handleLike={handleLike}
-      />
+      <BlogList user={user} />
     </div>
   )
 }

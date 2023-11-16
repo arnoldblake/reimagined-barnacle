@@ -1,7 +1,9 @@
+// Components
 import Togglable from './Togglable'
 import DeleteButton from './DeleteButton'
+import LikeButton from './LikeButton'
 
-const Blog = ({ children, user, handleDelete, blog }) => {
+const Blog = ({ children, user, blog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -12,7 +14,7 @@ const Blog = ({ children, user, handleDelete, blog }) => {
 
   const showDeleteButton = (user) => {
     if ((user && user.username) === blog.user.username)
-      return <DeleteButton handleDelete={handleDelete} blog={blog} />
+      return <DeleteButton blog={blog} />
   }
 
   return (
@@ -25,7 +27,7 @@ const Blog = ({ children, user, handleDelete, blog }) => {
       >
         <p>URL: {blog.url}</p>
         <p>
-          Likes: {blog.likes} {children}
+          Likes: {blog.likes} <LikeButton blog={blog} />
         </p>
         <p>User: {blog.user.name}</p>
         {showDeleteButton(user)}

@@ -1,4 +1,11 @@
-const DeleteButton = ({ handleDelete, blog }) => {
+// Services
+import blogService from '../services/blogs'
+
+const handleDelete = async (newObject) => {
+  await blogService.deleteBlog(newObject)
+}
+
+const DeleteButton = ({ blog }) => {
   const onClick = () => {
     if (
       window.confirm(
