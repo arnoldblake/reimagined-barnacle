@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 // Reducers
 import { setNotification } from './reducers/notification'
-import { initialize, createBlog } from './reducers/blog'
+import { initialize as initializeBlog } from './reducers/blog'
+import { setUser, initialize as initializeUser } from './reducers/user'
 
 // Components
 import BlogForm from './components/BlogForm'
@@ -18,24 +19,15 @@ import loginService from './services/login'
 
 const App = () => {
   const dispatch = useDispatch()
-  const [user, setUser] = useState(null)
-  const blogFormRef = useRef()
 
-  const blogs = useSelector(({ blog }) => {
-    return blog
-  })
+  const user = useSelector(({ user }) => user)
 
   useEffect(() => {
-    dispatch(initialize())
+    dispatch(initializeBlog())
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
+    dispatch(initializeUser())
   }, [])
 
   const handleLogin = async (newObject) => {
@@ -43,7 +35,7 @@ const App = () => {
       const user = await loginService.login(newObject)
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setUser(user))
     } catch (exception) {
       dispatch(setNotification('Invalid login', 5))
     }
@@ -52,34 +44,8 @@ const App = () => {
   const handleLogout = async (event) => {
     event.preventDefault()
     window.localStorage.removeItem('loggedBlogappUser')
-    setUser(null)
+    dispatch(setUser(null))
   }
-
-  const handleBlog = async (newObject) => {
-    blogFormRef.current.toggleVisibility()
-    dispatch(createBlog(newObject))
-
-    dispatch(
-      setNotification(
-        `A new blog: ${newObject.title} by ${newObject.author} was created`,
-        5,
-      ),
-    )
-
-    blogs.sort((a, b) => {
-      a.likes > b.likes ? false : true
-    })
-  }
-
-  const blogForm = () => (
-    <Togglable
-      buttonLabel="Create blog"
-      alternateButtonLabel="Cancel"
-      ref={blogFormRef}
-    >
-      <BlogForm createBlog={handleBlog} />
-    </Togglable>
-  )
 
   const logoutButton = () => <button onClick={handleLogout}>Logout</button>
 
@@ -102,8 +68,8 @@ const App = () => {
       )}
       <h2>Blogs</h2>
       <Notification />
-      {user === null ? loginForm() : blogForm()}
-      <BlogList user={user} />
+      {user === null ? loginForm() : <BlogForm />}
+      <BlogList />
     </div>
   )
 }

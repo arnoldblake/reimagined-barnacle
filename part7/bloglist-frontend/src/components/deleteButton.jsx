@@ -1,18 +1,17 @@
-// Services
-import blogService from '../services/blogs'
+import { useDispatch } from 'react-redux'
 
-const handleDelete = async (newObject) => {
-  await blogService.deleteBlog(newObject)
-}
+// Reducers
+import { removeBlog } from '../reducers/blog'
 
 const DeleteButton = ({ blog }) => {
+  const dispatch = useDispatch()
   const onClick = () => {
     if (
       window.confirm(
         `Are you sure you would like to delete ${blog.title} with ${blog.likes} likes?`,
       )
     )
-      handleDelete(blog)
+      dispatch(removeBlog(blog))
   }
 
   return <button onClick={onClick}>Delete</button>

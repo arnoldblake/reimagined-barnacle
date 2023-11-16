@@ -1,9 +1,13 @@
+import { useSelector } from 'react-redux'
+
 // Components
 import Togglable from './Togglable'
 import DeleteButton from './DeleteButton'
 import LikeButton from './LikeButton'
 
-const Blog = ({ children, user, blog }) => {
+const Blog = ({ blog }) => {
+  const user = useSelector(({ user }) => user)
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -12,9 +16,10 @@ const Blog = ({ children, user, blog }) => {
     marginBottom: 5,
   }
 
-  const showDeleteButton = (user) => {
-    if ((user && user.username) === blog.user.username)
+  const showDeleteButton = () => {
+    if (user !== null && user.username === blog.user.username) {
       return <DeleteButton blog={blog} />
+    }
   }
 
   return (
@@ -30,7 +35,7 @@ const Blog = ({ children, user, blog }) => {
           Likes: {blog.likes} <LikeButton blog={blog} />
         </p>
         <p>User: {blog.user.name}</p>
-        {showDeleteButton(user)}
+        {showDeleteButton()}
       </Togglable>
     </div>
   )
