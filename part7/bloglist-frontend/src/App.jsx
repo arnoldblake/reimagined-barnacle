@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
-import Blog from './components/blog'
-import Notification from './components/notification'
-import LoginForm from './components/loginForm'
-import BlogForm from './components/blogForm'
-import Togglable from './components/togglable'
-import LikeButton from './components/likeButton'
+
+// Components
+import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
+import LikeButton from './components/LikeButton'
+import LoginForm from './components/LoginForm'
+import Notification from './components/Notification'
+import Togglable from './components/Togglable'
+
+// Services
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -122,7 +126,7 @@ const App = () => {
         </div>
       )}
       <h2>Blogs</h2>
-      <Notification message={message} className={className} />
+      <Notification />
       {user === null ? loginForm() : blogForm()}
       {showBlogs(user)}
     </div>

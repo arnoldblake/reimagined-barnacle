@@ -1,5 +1,5 @@
-import Togglable from './togglable'
-import DeleteButton from './deleteButton'
+import Togglable from './Togglable'
+import DeleteButton from './DeleteButton'
 
 const Blog = ({ children, user, handleDelete, blog }) => {
   const blogStyle = {
