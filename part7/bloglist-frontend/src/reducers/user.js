@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+// Reducers
+import { setNotification } from './notification'
+
+// Services
 import blogService from '../services/blogs'
+import loginService from '../services/login'
 
 const userSlice = createSlice({
   name: 'user',
@@ -9,6 +14,8 @@ const userSlice = createSlice({
     setUser(state, action) {
       return action.payload
     },
+    login(state, action) {},
+    logout(state, action) {},
   },
 })
 
@@ -22,6 +29,26 @@ export const initialize = () => {
       dispatch(setUser(user))
       blogService.setToken(user.token)
     }
+  }
+}
+
+export const handleLogin = (login) => {
+  return async (dispatch) => {
+    try {
+      const user = await loginService.login(login)
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      blogService.setToken(user.token)
+      dispatch(setUser(user))
+    } catch {
+      dispatch(setNotification('Invalid login', 5))
+    }
+  }
+}
+
+export const handleLogout = () => {
+  return async (dispatch) => {
+    window.localStorage.removeItem('loggedBlogappUser')
+    dispatch(setUser(null))
   }
 }
 
