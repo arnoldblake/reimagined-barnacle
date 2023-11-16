@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
+
+// Reducers
+import { setNotification } from './reducers/notification'
 
 // Components
-import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
-import LikeButton from './components/LikeButton'
+import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -14,9 +17,9 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [message, setMessage] = useState(null)
-  const [className, setClassName] = useState('success')
   const [user, setUser] = useState(null)
+
+  const dispatch = useDispatch()
 
   const blogFormRef = useRef()
 
@@ -42,12 +45,7 @@ const App = () => {
       blogService.setToken(user.token)
       setUser(user)
     } catch (exception) {
-      setMessage('Invalid login')
-      setClassName('error')
-
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+      dispatch(setNotification('Invalid login', 5))
     }
   }
 
@@ -63,18 +61,16 @@ const App = () => {
     const allBlogs = await blogService.getAll()
     setBlogs(allBlogs)
 
-    setMessage(
-      `A new blog: ${newObject.title} by ${newObject.author} was created`,
+    dispatch(
+      setNotification(
+        `A new blog: ${newObject.title} by ${newObject.author} was created`,
+        5,
+      ),
     )
-    setClassName('success')
 
     blogs.sort((a, b) => {
       a.likes > b.likes ? false : true
     })
-
-    setTimeout(() => {
-      setMessage(null)
-    }, 5000)
   }
 
   const blogForm = () => (
@@ -107,15 +103,6 @@ const App = () => {
     setBlogs(blogs.filter((b) => b.id !== newObject.id))
   }
 
-  const showBlogs = (user) => {
-    blogs.sort((a, b) => (a.likes > b.likes ? false : true))
-    return blogs.map((blog) => (
-      <Blog key={blog.id} blog={blog} user={user} handleDelete={handleDelete}>
-        <LikeButton handleLike={handleLike} blog={blog} />
-      </Blog>
-    ))
-  }
-
   return (
     <div>
       {user && (
@@ -128,7 +115,12 @@ const App = () => {
       <h2>Blogs</h2>
       <Notification />
       {user === null ? loginForm() : blogForm()}
-      {showBlogs(user)}
+      <BlogList
+        blogs={blogs}
+        user={user}
+        handleDelete={handleDelete}
+        handleLike={handleLike}
+      />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 // Reducers
-import { notification } from './reducers/notification'
+import notification from './reducers/notification'
 
 const store = configureStore({
   reducer: {
