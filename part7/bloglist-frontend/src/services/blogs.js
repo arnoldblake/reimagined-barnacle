@@ -12,6 +12,11 @@ const getAll = async () => {
   return response.data
 }
 
+const getBlog = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}`)
+  return response.data
+}
+
 const createBlog = async (newObject) => {
   const config = {
     headers: {
@@ -46,4 +51,4 @@ const deleteBlog = async (newObject) => {
   await axios.delete(`${baseUrl}/${newObject.id}`, config)
 }
 
-export default { getAll, createBlog, setToken, updateBlog, deleteBlog }
+export default { getAll, getBlog, createBlog, setToken, updateBlog, deleteBlog }

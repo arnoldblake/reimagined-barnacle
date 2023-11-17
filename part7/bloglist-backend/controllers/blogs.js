@@ -9,6 +9,11 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+blogsRouter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 })
+  response.json(blog)
+})
+
 blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   const body = request.body
   const user = await User.findById(request.userId)
@@ -53,7 +58,7 @@ blogsRouter.put('/:id', async (request, response) => {
   }
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
     new: true,
-  })
+  }).populate('user', { username: 1, name: 1 })
   response.json(updatedBlog)
 })
 

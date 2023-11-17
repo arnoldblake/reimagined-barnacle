@@ -14,7 +14,7 @@ const Status = () => {
       <p>
         {login.name} logged in{' '}
         {login !== null && (
-          <button onClick={() => dispatch(handleLogout())}>Logout</button>
+          <div><button onClick={() => dispatch(handleLogout())}>Logout</button></div>
         )}
       </p>
     </div>

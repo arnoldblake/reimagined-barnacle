@@ -24,19 +24,7 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={blogStyle} className="blog">
-      Title: {blog.title} Author: {blog.author}
-      <Togglable
-        buttonLabel="View"
-        alternateButtonLabel="Hide"
-        title={blog.title}
-      >
-        <p>URL: {blog.url}</p>
-        <p>
-          Likes: {blog.likes} <LikeButton blog={blog} />
-        </p>
-        <p>User: {blog.user.name}</p>
-        {showDeleteButton()}
-      </Togglable>
+      {blog.title}
     </div>
   )
 }
