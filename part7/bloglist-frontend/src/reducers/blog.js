@@ -23,6 +23,7 @@ const blogSlice = createSlice({
     },
   },
 })
+
 export const { setBlogs, appendBlog, like, deleteBlog } = blogSlice.actions
 
 export const initialize = () => {

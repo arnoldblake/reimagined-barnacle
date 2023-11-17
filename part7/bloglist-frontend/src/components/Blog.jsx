@@ -6,7 +6,7 @@ import DeleteButton from './DeleteButton'
 import LikeButton from './LikeButton'
 
 const Blog = ({ blog }) => {
-  const user = useSelector(({ user }) => user)
+  const login = useSelector(({ login }) => login)
 
   const blogStyle = {
     paddingTop: 10,
@@ -17,7 +17,7 @@ const Blog = ({ blog }) => {
   }
 
   const showDeleteButton = () => {
-    if (user !== null && user.username === blog.user.username) {
+    if (login !== null && login.username === blog.user.username) {
       return <DeleteButton blog={blog} />
     }
   }

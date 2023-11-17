@@ -1,16 +1,21 @@
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 // Reducers
+import { initialize } from '../reducers/blog'
 
 // Components
 import Blog from './Blog'
 
 const BlogList = () => {
+  const dispatch = useDispatch()
   const blogs = useSelector(({ blog }) => {
     return [...blog].sort((a, b) => (a.likes > b.likes ? false : true))
   })
 
-  const user = useSelector(({ user }) => user)
+  useEffect(() => {
+    dispatch(initialize())
+  }, [])
 
   return blogs.map((blog) => <Blog key={blog.id} blog={blog}></Blog>)
 }

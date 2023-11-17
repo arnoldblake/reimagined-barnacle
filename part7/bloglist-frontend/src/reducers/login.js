@@ -7,27 +7,24 @@ import { setNotification } from './notification'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
 
-const userSlice = createSlice({
-  name: 'user',
+const loginSlice = createSlice({
+  name: 'login',
   initialState: null,
   reducers: {
-    setUser(state, action) {
+    setLogin(state, action) {
       return action.payload
     },
-    login(state, action) {},
-    logout(state, action) {},
   },
 })
 
-export const { setUser } = userSlice.actions
+export const { setLogin } = loginSlice.actions
 
 export const initialize = () => {
   return async (dispatch) => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      dispatch(setUser(user))
-      blogService.setToken(user.token)
+      dispatch(setLogin(user))
     }
   }
 }
@@ -38,7 +35,7 @@ export const handleLogin = (login) => {
       const user = await loginService.login(login)
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      dispatch(setUser(user))
+      dispatch(setLogin(user))
     } catch {
       dispatch(setNotification('Invalid login', 5))
     }
@@ -48,8 +45,8 @@ export const handleLogin = (login) => {
 export const handleLogout = () => {
   return async (dispatch) => {
     window.localStorage.removeItem('loggedBlogappUser')
-    dispatch(setUser(null))
+    dispatch(setLogin(null))
   }
 }
 
-export default userSlice.reducer
+export default loginSlice.reducer

@@ -1,19 +1,19 @@
 import { useSelector } from 'react-redux'
 
 import { useDispatch } from 'react-redux'
-import { handleLogout } from '../reducers/user'
+import { handleLogout } from '../reducers/login'
 
 const Status = () => {
   const dispatch = useDispatch()
-  const user = useSelector(({ user }) => user)
+  const login = useSelector(({ login }) => login)
 
-  if (!user) return null
+  if (!login) return null
 
   return (
     <div>
       <p>
-        {user.name} logged in{' '}
-        {user !== null && (
+        {login.name} logged in{' '}
+        {login !== null && (
           <button onClick={() => dispatch(handleLogout())}>Logout</button>
         )}
       </p>
