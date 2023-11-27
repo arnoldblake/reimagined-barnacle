@@ -8,6 +8,7 @@ import { initialize as initBlogs } from './reducers/blog'
 
 // Components
 import BlogDetail from './components/BlogDetail'
+import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import Status from './components/Status'
 import Users from './components/Users'
